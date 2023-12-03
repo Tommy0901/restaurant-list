@@ -20,9 +20,27 @@ router.get("/", (req, res) => {
             })
           )
         : restaurants;
-      res.render("index", { restaurants: matchedRestaurants, keyword });
-    } catch {
-      res.status(422).json(err);
+      res.render("restaurants", { restaurants: matchedRestaurants, keyword });
+    } catch (error) {
+      res.send("Server Error :(");
+    }
+  })();
+});
+
+router.get("/new", (req, res) => {
+  res.render("new");
+});
+
+router.post("/", (req, res, next) => {
+  const { name, name_en, category, image, location, phone, google_map, rating, description } = req.body;
+  (async () => {
+    try {
+      await Restaurant.create({ name, name_en, category, image, location, phone, google_map, rating, description });
+      req.flash("success", "create successful !");
+      res.redirect("restaurants");
+    } catch (error) {
+      error.error_msg = "failed to create :(";
+      next(error);
     }
   })();
 });

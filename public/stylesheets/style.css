@@ -37,7 +37,11 @@ header {
 
 .form-control::placeholder {
   color: #aaaaaa;
-  font-size: 0.8rem;
+  font-size: 1rem;
+}
+
+.form-control:focus {
+  border-color: #ced4da;
 }
 
 .btn-major {
@@ -45,9 +49,16 @@ header {
   color: white;
 }
 
-.form-control:focus {
-  box-shadow: none;
-  border-color: #ced4da;
+.btn-color {
+  background-color: #0d75fd;
+  border-color: #0d85fd;
+}
+
+.btn-padding {
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 4px;
+  padding-right: 4px;
 }
 
 .card {
@@ -55,7 +66,7 @@ header {
 }
 
 .restaurant-category {
-  color: #666666;
+  color: #6c757d;
   font-size: 0.8rem;
 }
 
@@ -66,6 +77,18 @@ header {
   text-align: center;
   font-size: 3rem;
   text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.interaction-bar {
+  display: flex;
+  justify-content: end;
+  border-top: 1px solid #cccccc;
+}
+
+.interaction-icon {
+  text-decoration: none;
+  align-self: center;
+  color: #6c757d;
 }
 
 @media screen and (max-width: 768px) {
