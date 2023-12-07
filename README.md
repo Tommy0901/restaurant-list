@@ -29,7 +29,7 @@
 4. 完成資料庫設定，輸入：
 
    ```bash
-   npm run setup-db
+   npm run dbsetup
    ```
 
 5. 安裝完畢後，繼續輸入：

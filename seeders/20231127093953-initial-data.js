@@ -10,10 +10,10 @@ restaurants.forEach((restaurant) => {
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.bulkInsert("restaurants", restaurants);
+    await queryInterface.bulkInsert("Restaurants", restaurants);
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete("restaurants", null);
+    await queryInterface.bulkDelete("Restaurants", null);
   },
 };
