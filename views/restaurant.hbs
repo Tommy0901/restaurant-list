@@ -44,8 +44,8 @@
       <div>
         <input class="btn btn-primary btn-color btn-padding ms-3" type ="button" onclick="location.href='/restaurants'" value="上一頁"></input>
       </div>
-      <form action="/restaurant/{{restaurant.id}}?_method=delete" method="post" id="delete-restaurant">
-        <button type="submit" class="btn btn-secondary btn-padding ms-3"><i class="fa-solid fa-trash-can fa-sm"></i> 刪除</button>
+      <form method="post" id="delete-restaurant">
+        <button type="button" onclick="confirmDelete({{restaurant.id}})" class="btn btn-secondary btn-padding ms-3"><i class="fa-solid fa-trash-can fa-sm"></i> 刪除</button>
       </form>
     </div>
   </div>

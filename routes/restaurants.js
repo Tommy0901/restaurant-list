@@ -33,6 +33,12 @@ router.get("/new", (req, res) => {
 
 router.post("/", (req, res, next) => {
   const { name, name_en, category, image, location, phone, google_map, rating, description } = req.body;
+
+  if (!name || !location || !phone || !rating) {
+    req.flash("error", "please enter your restaurant's name, location, phone and rating");
+    return res.redirect("back");
+  }
+  
   (async () => {
     try {
       await Restaurant.create({ name, name_en, category, image, location, phone, google_map, rating, description });

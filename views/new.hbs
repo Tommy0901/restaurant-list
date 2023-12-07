@@ -1,6 +1,6 @@
 <div class="container">
   <div class="card my-5">
-    <form action="/restaurants" method="post" id="form-edit" novalidate> <!--novalidate 關閉瀏覽器自動驗證--> 
+    <form action="/restaurants" method="post" novalidate> <!--novalidate 關閉瀏覽器自動驗證--> 
       <div class="card-header" style="font-weight: bold;">
         編輯餐廳
       </div>
@@ -90,7 +90,7 @@
           <label for="rating" class="col-sm-4 col-form-label">餐廳評分</label>
           <div class="col-sm-8">
             <input name="rating" type="number" min="1" max="5" step="0.1" class="form-control" id="rating" value=""
-              placeholder="輸入評分 1.0 ~ 5.0【 例：3.5 】">
+              placeholder="輸入評分 1.0 ~ 5.0【 例：3.5 】" required>
             <div class="invalid-feedback">* 請輸入餐廳評分</div>
           </div>
         </div>
@@ -106,6 +106,7 @@
       </div>
 
       <div class="card-footer text-muted d-flex justify-content-end">
+        <div class="me-3">{{>message}}</div>
         <button type="submit" class="btn btn-success btn-padding me-3">
           <i class="fa-solid fa-pen-to-square" style="margin-right: 10px;"></i>新增
         </button>
@@ -120,5 +121,3 @@
     </form>
   </div>
 </div>
-
-<script src="/javascripts/formValidity.js"></script>
