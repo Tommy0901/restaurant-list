@@ -8,7 +8,6 @@ const port = 3000
 
 const router = require('./routes')
 const messageHandler = require('./middlewares/message-handler')
-const errorHandler = require('./middlewares/error-handler')
 
 const handlebars = require('handlebars')
 
@@ -32,7 +31,6 @@ app.use(flash())
 
 app.use(messageHandler)
 app.use(router) // 將 request 導入路由器
-app.use(errorHandler)
 
 app.listen(port, () => {
   console.log(`express server is running on http://localhost:${port}`)
