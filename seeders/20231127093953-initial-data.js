@@ -1,19 +1,19 @@
-"use strict";
+'use strict'
 
 /** @type {import('sequelize-cli').Migration} */
-const { results: restaurants } = require("../public/jsons/restaurants.json");
-restaurants.forEach((restaurant) => {
-  delete restaurant.id;
-  restaurant.createdAt = new Date();
-  restaurant.updatedAt = new Date();
-});
+const { results: restaurants } = require('../public/jsons/restaurants.json')
+restaurants.forEach(restaurant => {
+  delete restaurant.id
+  restaurant.createdAt = new Date()
+  restaurant.updatedAt = new Date()
+})
 
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.bulkInsert("Restaurants", restaurants);
+  async up (queryInterface, Sequelize) {
+    await queryInterface.bulkInsert('Restaurants', restaurants)
   },
 
-  async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete("Restaurants", null);
-  },
-};
+  async down (queryInterface, Sequelize) {
+    await queryInterface.bulkDelete('Restaurants', null)
+  }
+}
