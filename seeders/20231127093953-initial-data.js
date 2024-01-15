@@ -4,8 +4,8 @@
 const { results: restaurants } = require('../public/jsons/restaurants.json')
 restaurants.forEach(restaurant => {
   delete restaurant.id
-  restaurant.createdAt = new Date()
-  restaurant.updatedAt = new Date()
+  // restaurant.created_at = new Date()
+  // restaurant.updated_at = new Date()
 })
 
 module.exports = {
