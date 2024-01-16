@@ -2,19 +2,16 @@ const { Restaurant } = require('../models')
 
 module.exports = {
   getRestaurants (req, res, next) {
-    // qurey.keyword 對應 index.hbs <input ... name="keyword" ；?.為可選串連(Optional chaining)
     const keyword = req.query.keyword?.trim();
     (async () => {
       try {
-        const restaurants = await Restaurant.findAll({ raw: true })
+        const restaurants = await Restaurant.findAll({ order: [['id', 'DESC']], raw: true })
         const matchedRestaurants = keyword
-          ? restaurants.filter(restaurant =>
-            Object.values(restaurant).some(property => {
-              if (typeof property === 'string') {
-                return property.toLowerCase().includes(keyword.toLowerCase())
-              }
-              return false
-            })
+          ? restaurants.filter(r => Object.values(r).some(property => {
+            return typeof property === 'string'
+              ? property.toLowerCase().includes(keyword.toLowerCase())
+              : false
+          })
           )
           : restaurants
         res.render('restaurants', { restaurants: matchedRestaurants, keyword })
@@ -27,19 +24,19 @@ module.exports = {
     res.render('new')
   },
   postRestaurant (req, res, next) {
-    const { name, nameEn, category, image, location, phone, googleMap, rating, description } = req.body
+    const { name, category, location, phone, rating, ...otherData } = req.body
     if (!name || !category || !location || !phone || !rating) {
       req.flash('error', "please enter your restaurant's name, location, phone and rating")
       return res.redirect('back')
     }
     (async () => {
       try {
-        await Restaurant.create({ name, nameEn, category, image, location, phone, googleMap, rating, description })
+        await Restaurant.create({ name, category, location, phone, rating, ...otherData })
         req.flash('success', 'create successful !')
         res.redirect('restaurants')
-      } catch (error) {
-        error.error_msg = 'failed to create :('
-        next(error)
+      } catch (err) {
+        err.message = 'failed to create :('
+        next(err)
       }
     })()
   },
@@ -48,10 +45,11 @@ module.exports = {
     (async () => {
       try {
         const restaurant = await Restaurant.findByPk(id, { raw: true })
+        if (!restaurant) throw new Error("Restaurant didn't exist!")
         res.render('restaurant', { restaurant })
-      } catch (error) {
-        error.error_msg = 'data not found :('
-        next(error)
+      } catch (err) {
+        err.message = 'data not found :('
+        next(err)
       }
     })()
   },
@@ -60,32 +58,34 @@ module.exports = {
     (async () => {
       try {
         const restaurant = await Restaurant.findByPk(id, { raw: true })
+        if (!restaurant) throw new Error("Restaurant didn't exist!")
         const category = restaurant.category
         res.render('edit', { restaurant, category })
-      } catch (error) {
-        error.error_msg = 'data not found :('
-        next(error)
+      } catch (err) {
+        err.message = 'data not found :('
+        next(err)
       }
     })()
   },
   putRestaurant (req, res, next) {
     const { id } = req.params
-    const { name, nameEn, category, image, location, phone, googleMap, rating, description } = req.body
+    const { name, location, phone, rating, ...otherData } = req.body
     if (!name || !location || !phone || !rating) {
       req.flash('error', "please enter your restaurant's name, location, phone and rating")
       return res.redirect('back')
     }
     (async () => {
       try {
-        await Restaurant.update(
-          { name, nameEn, category, image, location, phone, googleMap, rating, description },
-          { where: { id } }
+        const restaurant = await Restaurant.findByPk(id)
+        if (!restaurant) throw new Error("Restaurant didn't exist!")
+        await restaurant.update(
+          { name, location, phone, rating, ...otherData }
         )
         req.flash('success', 'update successful !')
         res.redirect(`/restaurant/${id}`)
-      } catch (error) {
-        error.error_msg = 'update failed :('
-        next(error)
+      } catch (err) {
+        err.message = 'update failed :('
+        next(err)
       }
     })()
   },
@@ -93,12 +93,14 @@ module.exports = {
     const { id } = req.params;
     (async () => {
       try {
-        await Restaurant.destroy({ where: { id } })
+        const restaurant = await Restaurant.findByPk(id)
+        if (!restaurant) throw new Error("Restaurant didn't exist!")
+        await restaurant.destroy()
         req.flash('success', 'delete successful !')
         res.redirect('/restaurants')
-      } catch (error) {
-        error.error_msg = 'delete failed :('
-        next(error)
+      } catch (err) {
+        err.message = 'delete failed :('
+        next(err)
       }
     })()
   }

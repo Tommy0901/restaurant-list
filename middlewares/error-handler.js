@@ -1,8 +1,8 @@
 module.exports = {
-  errorHandler (error, req, res, next) {
-    console.error(error)
-    req.flash('error', error.error_msg || 'Server Error :(')
+  errorHandler (err, req, res, next) {
+    console.error(err)
+    req.flash('error', err.message || 'Server Error :(')
     res.redirect('back')
-    next(error) // 將錯誤傳給 express 預設的 error handler middleware
+    next(err) // 將錯誤傳給 express 預設的 error handler middleware
   }
 }
