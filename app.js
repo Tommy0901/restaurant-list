@@ -3,19 +3,15 @@ const flash = require('connect-flash')
 const session = require('express-session')
 const methodOverride = require('method-override')
 const { engine } = require('express-handlebars')
+
+const messageHandler = require('./middlewares/message-handler')
+const helpers = require('./helpers/handlebars-helpers.js')
+const router = require('./routes')
+
 const app = express()
 const port = 3000
 
-const router = require('./routes')
-const messageHandler = require('./middlewares/message-handler')
-
-const handlebars = require('handlebars')
-
-handlebars.registerHelper('is_equal', (arg1, arg2) => {
-  return arg1 === arg2
-})
-
-app.engine('.hbs', engine({ extname: '.hbs' }))
+app.engine('.hbs', engine({ extname: '.hbs', helpers }))
 app.set('view engine', '.hbs')
 app.set('views', './views')
 
